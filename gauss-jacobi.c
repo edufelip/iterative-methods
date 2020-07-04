@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 int main (void) {
     int k = 0, dim, i, j, criterion = 1;
@@ -7,7 +8,7 @@ int main (void) {
     scanf("%d", &dim);
     printf("INSERT THE ERROR MARGIN BETWEEN ITERATIONS?\n");
     scanf("%lf", &margin);
-    double a[dim][dim], b[dim], c[dim], y[dim], sup, difer;
+    double a[dim][dim], b[dim], c[dim], y[dim], sup, difer[dim], diferSup;
     printf("INSERT THE MATRIX A\n");
     for(i = 0; i < dim; i++){
         for(j = 0; j < dim; j++){
@@ -38,14 +39,17 @@ int main (void) {
             c[i] = y[i];
             y[i] = sup;
         }
-        criterion = 0;
         for(i = 0; i < dim; i++){
-                difer = c[i] - y[i];
-                if(difer < 0) difer = difer * -1;
-                if(difer > margin){
-                    criterion = 1;
-                }
-            }
+            difer[i] = c[i] - y[i];
+        }
+        diferSup = 0;
+        for(i = 0; i < dim; i++){
+            diferSup += (difer[i]*difer[i]);
+        }
+        diferSup = sqrt(diferSup);
+        if(diferSup < margin){
+            criterion = 0;
+        }
         k++;
         printf("ITERATION NUMBER %d\n", k);
         for(i = 0; i < dim; i++){

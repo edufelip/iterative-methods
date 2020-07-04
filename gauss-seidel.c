@@ -36,7 +36,6 @@ int main (void) {
             c[i] = y[i];
             y[i] = sup;
         }
-        criterion = 0;
         for(i = 0; i < dim; i++){
             difer[i] = c[i] - y[i];
         }
@@ -45,8 +44,8 @@ int main (void) {
             diferSup += (difer[i]*difer[i]);
         }
         diferSup = sqrt(diferSup);
-        if(diferSup > margin){
-            criterion = 1;
+        if(diferSup < margin){
+            criterion = 0;
         }
         k++;
         printf("ITERATION NUMBER %d\n", k);

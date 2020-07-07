@@ -2,30 +2,26 @@
 #include <math.h>
 
 int main (void) {
-    int k = 0, dim = 30, i, j, criterio = 1;
-    double margem = pow(10, -9);
-    long double A[dim][dim], b[dim], d[dim][dim], y[dim], z[dim], difer[dim], diferSup, r[dim], v[dim], aux = 0, m, s, sDen, aux1;
-    long double x[dim], g[dim], alpha[dim], dHold[dim]; 
+    int k = 0, dim, i, j, criterio = 1;
+    double margin;
 
+    printf("INSERT THE MATRIX'S DIMENSION\n");
+    scanf("%d", &dim);
+    printf("INSERT THE ERROR MARGIN BETWEEN ITERATIONS?\n");
+    scanf("%lf", &margin);
+
+    double a[dim][dim], b[dim], d[dim][dim], y[dim], z[dim], difer[dim], diferSup, r[dim], v[dim], aux = 0, m, s, sDen, aux1;
+    double x[dim], g[dim], alpha[dim], dHold[dim]; 
+
+    printf("INSERT THE MATRIX A (SYMMETRIC SEMIDEFINITE POSITIVE)\n");
     for(i = 0; i < dim; i++){
-        if(i == 0) {
-            b[i] = 1;
-        } else if(i == dim - 1){
-            b[i] = 1;
-        } else {
-            b[i] = 0;
-        }
         for(j = 0; j < dim; j++){
-            if(i == j){
-                A[i][j] = -2*(1+(0.1*0.1));
-            } else if (j == i + 1){
-                A[i][j] = 1;
-            } else if (j == i - 1){
-                A[i][j] = 1;
-            } else {
-                A[i][j] = 0;
-            }
+            scanf("%lf", &a[i][j]);
         }
+    }
+    printf("INSERT THE MATRIX B\n");
+    for(i = 0; i < dim; i++){
+        scanf("%lf", &b[i]);
     }
 
     for(i = 0; i < dim; i++){
@@ -41,7 +37,7 @@ int main (void) {
         for(i = 0; i < dim; i++){
             z[i] = 0;
             for(j = 0; j < dim; j++){
-                z[i] += (v[j] * A[j][i]);
+                z[i] += (v[j] * a[j][i]);
             }
         }
         sDen = 0;
@@ -74,16 +70,17 @@ int main (void) {
             diferSup += (difer[i]*difer[i]);
         }
         diferSup = sqrt(diferSup);
-        if(diferSup > margem){
+        if(diferSup > margin){
             criterio = 1;
         }
         if(diferSup == 1) criterio = 0;
         k++;
     }
 
+    printf("\n RESULTS: \n");
     for(i = 0; i < dim; i++){
-        printf("x[%d]  %.40Lf \n", i, x[i]);
+        printf("x[%d]  %.6F \n", i, x[i]);
     }
-    printf("\nIteraçoes: %d \n", k);
+    printf("\nITERATIONS: %d \n", k);
     return 0;
 }
